@@ -14,6 +14,9 @@ dependencies:
   better-sqlite3:
     specifier: ^8.5.1
     version: 8.5.1
+  myzod:
+    specifier: ^1.10.1
+    version: 1.10.1
   tough-cookie:
     specifier: ^4.1.3
     version: 4.1.3
@@ -738,6 +741,10 @@ packages:
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+
+  /myzod@1.10.1:
+    resolution: {integrity: sha512-Ul61O4muREw0opIDuG4+j9c/b8kIr6CtjI8e+OJ2q09wzJtiiq4mQ5hWBDhMY12YbLXaof7bRh609BDiCZZsLg==}
+    dev: false
 
   /napi-build-utils@1.0.2:
     resolution: {integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==}

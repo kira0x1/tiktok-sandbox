@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import * as Types from "./types";
 
 // ---- PATHS ----
 export const publicPath = path.join(__dirname, "../public");
@@ -20,16 +21,29 @@ const userAgents = {
 export const userAgent: string =
   userAgents[process.platform] || userAgents["win32"];
 
-// ---- Cookies ----
+// ---- COOKIES ----
 export async function saveCookies(cookies: Map<string, Electron.Cookie>) {
-  const cookieFilePath = path.join(dataPath, "cookies.json");
-  console.log(`saving cookies to ${cookieFilePath}`);
+  console.log(`saving cookies to ${cookiesPath}`);
 
   const data = JSON.stringify(Array.from(cookies.values()));
-  fs.writeFileSync(cookieFilePath, data);
+  fs.writeFileSync(cookiesPath, data);
   console.log("cookies saved...");
 }
 
+// Reads cookies from the cookies.json file
+export function readCookies(): Array<Types.Cookie> {
+  const cookiesFile = fs.readFileSync(cookiesPath).toString();
+  const cookiesData = JSON.parse(cookiesFile);
+
+  try {
+    const parsedCookies = Types.CookiesArraySchema.parse(cookiesData);
+    return parsedCookies;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// ---- MATH ----
 export function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() + (max - min + 1)) + min;
 }

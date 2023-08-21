@@ -1,14 +1,27 @@
 import path from "path";
-import { app, BrowserWindow } from "electron";
+import { BrowserWindow } from "electron";
 import startAuth from "./auth";
-import { publicPath } from "./util";
+import { publicPath, readCookies } from "./util";
 import { DatabaseManager, initDB } from "./database";
 
 if (process.argv.includes("--db")) {
   initDB();
+  console.log(`inserting cookie into db`);
+
+  const cookies = readCookies();
+  DatabaseManager.importCookies(cookies);
+
+  console.log(`getting all`);
+  DatabaseManager.getKnownCookies();
 }
 
-if (process.argv.includes("--auth")) startAuth();
+if (process.argv.includes("--initdb")) {
+  initDB();
+}
+
+if (process.argv.includes("--auth")) {
+  startAuth();
+}
 
 function createWindow() {
   const window = new BrowserWindow({
