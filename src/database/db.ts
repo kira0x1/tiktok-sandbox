@@ -23,7 +23,7 @@ export class DatabaseManager {
         domain TEXT,
         value TEXT,
         sameSite TEXT,
-        experationDate REAL
+        expirationDate REAL
     )`);
 
     const info = stmt.run();
