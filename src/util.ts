@@ -5,6 +5,7 @@ import path from "path";
 export const publicPath = path.join(__dirname, "../public");
 export const dataPath = path.join(__dirname, "../data");
 export const cookiesPath = path.join(dataPath, "cookies.json");
+export const dbPath = path.join(dataPath, "tiktokdb.sqlite");
 
 // ---- USER AGENT ----
 const userAgents = {
@@ -27,4 +28,8 @@ export async function saveCookies(cookies: Map<string, Electron.Cookie>) {
   const data = JSON.stringify(Array.from(cookies.values()));
   fs.writeFileSync(cookieFilePath, data);
   console.log("cookies saved...");
+}
+
+export function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() + (max - min + 1)) + min;
 }
