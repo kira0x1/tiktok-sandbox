@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "module": "Node16",
+    "module": "CommonJS",
     "moduleResolution": "Node",
     "rootDir": "src",
-    "outDir": "dist"
-  }
+    "outDir": "dist",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules"]
 }

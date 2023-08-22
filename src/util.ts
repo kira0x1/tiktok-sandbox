@@ -1,6 +1,9 @@
 import fs from "fs";
 import path from "path";
 import * as Types from "./types";
+import { DatabaseManager, initDB } from "./database";
+import { app } from "electron";
+import startAuth from "./auth";
 
 // ---- PATHS ----
 export const publicPath = path.join(__dirname, "../public");
@@ -46,4 +49,38 @@ export function readCookies(): Array<Types.Cookie> {
 // ---- MATH ----
 export function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() + (max - min + 1)) + min;
+}
+
+// ---- FLAGS ----
+
+export async function checkFlags() {
+  if (process.argv.includes("--initdb")) {
+    // Create tables
+    initDB();
+  }
+
+  if (process.argv.includes("--importcookies")) {
+    console.log(`inserting cookie into db`);
+    const cookies = readCookies();
+    DatabaseManager.importCookies(cookies);
+  }
+
+  if (process.argv.includes("--showall")) {
+    console.log(`getting all`);
+    DatabaseManager.getKnownCookies();
+  }
+
+  if (process.argv.includes("--initdb")) {
+    initDB();
+  }
+
+  if (process.argv.includes("--auth")) {
+    app.whenReady().then(() => {
+      startAuth();
+    });
+
+    app.on("window-all-closed", () => {
+      if (process.platform === "darwin") app.quit();
+    });
+  }
 }

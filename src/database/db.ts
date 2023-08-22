@@ -1,6 +1,9 @@
+import clc from "cli-color";
 import Database from "better-sqlite3";
 import { dbPath } from "../util";
 import * as Types from "../types";
+
+const cookieStatement = `(name, value, domain, hostOnly, path, secure, httpOnly, session, expirationDate, sameSite) VALUES (?,?,?,?,?,?,?,?,?,?)`;
 
 export class DatabaseManager {
   public static db: Database.Database;
@@ -27,8 +30,50 @@ export class DatabaseManager {
         sameSite TEXT
     )`);
 
+    const sessionStmt = db.prepare(`CREATE TABLE IF NOT EXISTS session_cookies (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL UNIQUE,
+      value TEXT,
+      domain TEXT,
+      hostOnly INTEGER,
+      path TEXT,
+      secure INTEGER,
+      httpOnly INTEGER,
+      session INTEGER,
+      expirationDate REAL,
+      sameSite TEXT
+  )`);
+
     const info = stmt.run();
-    console.log(`changes: ${info.changes}`);
+    const sessionInfo = sessionStmt.run();
+
+    console.log(
+      clc.bold("Creating " + clc.magenta("known_cookies") + " table")
+    );
+
+    process.stdout.write(
+      clc.columns([
+        [clc.bold("Changes"), clc.bold("Last Insert Row")],
+        [
+          clc.magenta.bold(info.changes),
+          clc.magenta.bold(info.lastInsertRowid),
+        ],
+      ])
+    );
+
+    console.log(
+      clc.bold("\nCreating " + clc.magenta("session_cookies") + " table")
+    );
+
+    process.stdout.write(
+      clc.columns([
+        [clc.bold("Changes"), clc.bold("Last Insert Row")],
+        [
+          clc.magenta.bold(sessionInfo.changes),
+          clc.magenta.bold(sessionInfo.lastInsertRowid),
+        ],
+      ])
+    );
   }
 
   public static importCookies(cookies: Array<Types.Cookie>) {
@@ -40,9 +85,7 @@ export class DatabaseManager {
   public static importCookie(cookie: Types.Cookie) {
     const db = DatabaseManager.db;
 
-    const stmt = db.prepare(
-      `INSERT INTO known_cookies (name, value, domain, hostOnly, path, secure, httpOnly, session, expirationDate, sameSite) VALUES (?,?,?,?,?,?,?,?,?,?)`
-    );
+    const stmt = db.prepare(`INSERT INTO known_cookies ${cookieStatement}`);
 
     const parsedCookie = Types.CookieSchema.parse(cookie);
 

@@ -49,6 +49,7 @@ function startAuth() {
         });
       } catch (e) {
         console.error("Tiktok auth error", e);
+        return;
       }
     }
   );
