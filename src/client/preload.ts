@@ -1,9 +1,6 @@
-import { contextBridge } from "electron";
+import { generateContextBridge } from "./ipc/contextBridge";
+import systemInfo from "./ipc/systemInfo";
 
-console.log("hello, world");
+console.log("meow");
 
-contextBridge.exposeInMainWorld("version", {
-  node: () => process.versions.node,
-  chrome: () => process.versions.chrome,
-  electron: () => process.versions.electron,
-});
+generateContextBridge([systemInfo]);

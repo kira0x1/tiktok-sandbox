@@ -1,5 +1,7 @@
 import myzod, { Infer } from "myzod";
 
+// ---- COOKIES ----
+
 export interface ICookie {
   name: string;
   value?: string;
@@ -29,3 +31,20 @@ export const CookieSchema = myzod.object({
 export type Cookie = Infer<typeof CookieSchema>;
 
 export const CookiesArraySchema = myzod.array(CookieSchema);
+
+// --- CLIENT ----
+
+export interface WindowSize {
+  width: number;
+  height: number;
+}
+
+export interface APIChannels {
+  apiName: string;
+  validSendChannel: SendChannels;
+  validRecieveChannel: string[];
+}
+
+export interface SendChannels {
+  [key: string]: Function;
+}

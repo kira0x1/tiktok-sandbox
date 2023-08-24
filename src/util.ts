@@ -52,35 +52,27 @@ export function getRandomInt(min: number, max: number): number {
 }
 
 // ---- FLAGS ----
-
 export async function checkFlags() {
   if (process.argv.includes("--initdb")) {
-    // Create tables
+    // Initalize Database and Create tables
     initDB();
   }
 
+  // Import cookies from file
   if (process.argv.includes("--importcookies")) {
     console.log(`inserting cookie into db`);
     const cookies = readCookies();
     DatabaseManager.importCookies(cookies);
   }
 
+  // Print cookies to console
   if (process.argv.includes("--showall")) {
     console.log(`getting all`);
     DatabaseManager.getKnownCookies();
   }
 
-  if (process.argv.includes("--initdb")) {
-    initDB();
-  }
-
+  // Start tiktok auth
   if (process.argv.includes("--auth")) {
-    app.whenReady().then(() => {
-      startAuth();
-    });
-
-    app.on("window-all-closed", () => {
-      if (process.platform === "darwin") app.quit();
-    });
+    startAuth();
   }
 }

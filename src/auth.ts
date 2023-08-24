@@ -1,10 +1,11 @@
-import { BrowserWindow, OnSendHeadersListenerDetails } from "electron";
+import { OnSendHeadersListenerDetails } from "electron";
+import { WindowManager } from "./client";
 import { saveCookies, userAgent } from "./util";
 
 const cookiesFound: Map<string, Electron.Cookie> = new Map();
 
 function startAuth() {
-  const tiktokWindow = new BrowserWindow({
+  const tiktokManager = new WindowManager({
     autoHideMenuBar: true,
     width: 950,
     height: 800,
@@ -14,6 +15,8 @@ function startAuth() {
       partition: "persist:tiktok",
     },
   });
+
+  const tiktokWindow = tiktokManager.window;
 
   tiktokWindow
     .loadURL("https://www.tiktok.com/login", {

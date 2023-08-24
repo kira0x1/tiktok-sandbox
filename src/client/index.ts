@@ -1,3 +1,3 @@
-export * from "./main";
-export * from "./preload";
-// export * from './renderer'
+export { default as WindowManager } from "./windowManager";
+// export * from "./preload";
+// export * from "./renderer";
