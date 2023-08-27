@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "electron .",
-    "dev": "node .",
+    "dev": "node . --dev",
     "auth": "electron . --auth",
     "db:init": "node . --initdb",
     "build": "tsc",

@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 import * as Types from "./types";
 import { DatabaseManager, initDB } from "./database";
-import { app } from "electron";
 import startAuth from "./auth";
+import { WindowManager } from "./client";
 
 // ---- PATHS ----
 export const publicPath = path.join(__dirname, "../public");
@@ -73,6 +73,19 @@ export async function checkFlags() {
 
   // Start tiktok auth
   if (process.argv.includes("--auth")) {
-    startAuth();
+    const tiktokManager = new WindowManager({
+      autoHideMenuBar: true,
+      width: 950,
+      height: 800,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: true,
+        partition: "persist:tiktok",
+      },
+    });
+
+    tiktokManager.onEvent.on("window-created", () => {
+      startAuth(tiktokManager.window);
+    });
   }
 }

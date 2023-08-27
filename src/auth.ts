@@ -1,22 +1,10 @@
-import { OnSendHeadersListenerDetails } from "electron";
-import { WindowManager } from "./client";
+import { BrowserWindow, OnSendHeadersListenerDetails } from "electron";
 import { saveCookies, userAgent } from "./util";
 
 const cookiesFound: Map<string, Electron.Cookie> = new Map();
 
-function startAuth() {
-  const tiktokManager = new WindowManager({
-    autoHideMenuBar: true,
-    width: 950,
-    height: 800,
-    webPreferences: {
-      contextIsolation: true,
-      nodeIntegration: false,
-      partition: "persist:tiktok",
-    },
-  });
-
-  const tiktokWindow = tiktokManager.window;
+function startAuth(window: BrowserWindow) {
+  const tiktokWindow = window;
 
   tiktokWindow
     .loadURL("https://www.tiktok.com/login", {
@@ -25,8 +13,14 @@ function startAuth() {
     .catch((e) => console.error("Loading tiktok login url failed", "ANY", e));
 
   const webContents = tiktokWindow.webContents;
-
   let found = false;
+
+  webContents.once("before-input-event", async (_event, input) => {
+    if (input.control && input.key.toLowerCase() === "s") {
+      await saveCookies(cookiesFound);
+      found = true;
+    }
+  });
 
   webContents.session.webRequest.onSendHeaders(
     async (_details: OnSendHeadersListenerDetails) => {
@@ -42,13 +36,6 @@ function startAuth() {
             // console.log(c);
           }
           cookiesFound.set(c.name, c);
-        });
-
-        webContents.once("before-input-event", async (_event, input) => {
-          if (input.control && input.key.toLowerCase() === "s") {
-            await saveCookies(cookiesFound);
-            found = true;
-          }
         });
       } catch (e) {
         console.error("Tiktok auth error", e);

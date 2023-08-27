@@ -22,6 +22,8 @@ export default class IPC {
 
   register(ipcMain: IpcMain, mainWindow: BrowserWindow) {
     if (!mainWindow) return;
+
+    console.log("registering ipc: " + this.apiName);
     Object.keys(this.validSendChannel).forEach((key) => {
       ipcMain.on(key, async (event, message) => {
         this.validSendChannel[key](mainWindow, event, message);

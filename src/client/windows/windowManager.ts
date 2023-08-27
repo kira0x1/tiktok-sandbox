@@ -1,12 +1,11 @@
 import { app, BrowserWindow } from "electron";
-import { publicPath } from "../util";
 import path from "path";
 import { EventEmitter } from "stream";
 
 export type WINDOW_EVENTS = "window-created" | "window-closed";
 
 export default class WindowManager {
-  private settings: Electron.BrowserWindowConstructorOptions = {
+  protected settings: Electron.BrowserWindowConstructorOptions = {
     width: 800,
     height: 600,
     show: false,
@@ -15,8 +14,8 @@ export default class WindowManager {
     },
   };
 
-  window: Electron.BrowserWindow;
-  onEvent: EventEmitter = new EventEmitter();
+  public window: Electron.BrowserWindow;
+  public onEvent: EventEmitter = new EventEmitter();
 
   public constructor(settings?: Electron.BrowserWindowConstructorOptions) {
     if (settings) {
@@ -32,9 +31,9 @@ export default class WindowManager {
     app.on("window-all-closed", this.onWindowAllClosed);
   }
 
-  private createWindow() {
+  protected createWindow() {
+    console.log("window manager create window called");
     this.window = new BrowserWindow(this.settings);
-    this.window.loadFile(path.join(publicPath, "index.html"));
 
     this.window.once("ready-to-show", () => {
       this.window.show();
@@ -43,13 +42,13 @@ export default class WindowManager {
     this.window.on("closed", this.onClose);
   }
 
-  private onWindowAllClosed() {
+  protected onWindowAllClosed() {
     if (process.platform !== "darwin") {
       app.quit();
     }
   }
 
-  private onClose() {
+  protected onClose() {
     this.window = null;
   }
 }
