@@ -10,8 +10,7 @@ export const dbPath = path.join(dataPath, 'tiktokdb.sqlite')
 
 // ---- USER AGENT ----
 const userAgents = {
-  linux:
-    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML like Gecko) Chrome/93.0.4542.2 Safari/537.36',
+  linux: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML like Gecko) Chrome/93.0.4542.2 Safari/537.36',
   win32:
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
   darwin:

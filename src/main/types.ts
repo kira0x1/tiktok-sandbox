@@ -1,18 +1,18 @@
-import myzod, { Infer } from "myzod";
+import myzod, { Infer } from 'myzod'
 
 // ---- COOKIES ----
 
 export interface ICookie {
-  name: string;
-  value?: string;
-  hostOnly: boolean;
-  domain: string;
-  path: string;
-  secure: boolean;
-  httpOnly: boolean;
-  session: boolean;
-  expirationDate?: number;
-  sameSite: string;
+  name: string
+  value?: string
+  hostOnly: boolean
+  domain: string
+  path: string
+  secure: boolean
+  httpOnly: boolean
+  session: boolean
+  expirationDate?: number
+  sameSite: string
 }
 
 export const CookieSchema = myzod.object({
@@ -25,26 +25,16 @@ export const CookieSchema = myzod.object({
   httpOnly: myzod.boolean(),
   session: myzod.boolean(),
   expirationDate: myzod.number().optional(),
-  sameSite: myzod.string(),
-});
+  sameSite: myzod.string()
+})
 
-export type Cookie = Infer<typeof CookieSchema>;
+export type Cookie = Infer<typeof CookieSchema>
 
-export const CookiesArraySchema = myzod.array(CookieSchema);
+export const CookiesArraySchema = myzod.array(CookieSchema)
 
 // --- CLIENT ----
 
 export interface WindowSize {
-  width: number;
-  height: number;
-}
-
-export interface APIChannels {
-  apiName: string;
-  validSendChannel: SendChannels;
-  validRecieveChannel: string[];
-}
-
-export interface SendChannels {
-  [key: string]: Function;
+  width: number
+  height: number
 }
