@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   display: flex;
   flex-direction: column;
@@ -62,33 +66,17 @@ a:hover {
   padding: 15px 30px 0 30px;
 }
 
-.versions {
+.cookies-view {
+  /* display: none; */
+  visibility: hidden;
+  background-color: #fff;
   margin: 0 auto;
-  float: none;
-  clear: both;
-  overflow: hidden;
-  font-family: 'Menlo', 'Lucida Console', monospace;
-  color: #c2f5ff;
-  line-height: 1;
-  transition: all 0.3s;
-}
+  width: 100%;
+  height: 10vh;
 
-.versions li {
-  display: block;
-  float: left;
-  border-right: 1px solid rgba(194, 245, 255, 0.4);
-  padding: 0 20px;
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.versions li:last-child {
-  border: none;
-}
-
-.hero-logo {
-  margin-top: -0.4rem;
-  transition: all 0.3s;
+  margin-top: 2rem;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 840px) {
@@ -183,6 +171,28 @@ a:hover {
   margin-top: 6px;
 }
 
+.menu-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* gap: 10px; */
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.menu-button {
+  /* font-size: 16px; */
+  /* font-weight: 500; */
+  background-color: rgba(194, 245, 255, 0.1);
+  /* color: #fff; */
+  /* width: 200px; */
+  /* height: 50px; */
+}
+
+.menu-button:focus {
+  outline-style: solid;
+}
+
 @media (max-width: 660px) {
   .features .feature-item {
     width: 50%;
@@ -197,9 +207,5 @@ a:hover {
 
   .links .link-dot {
     display: none;
-  }
-
-  .features .feature-item {
-    width: 100%;
   }
 }
